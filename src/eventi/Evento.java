@@ -4,6 +4,7 @@ import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.Year;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 /*
@@ -19,7 +20,7 @@ Creare una classe Evento che abbia le seguenti proprietà:
     Inserire il controllo che la data non sia già passata e che il numero di posti totali sia positivo. In caso contrario il programma deve lanciare una eccezione. OKU
     Aggiungere metodi getter e setter in modo che:
     titolo sia in lettura e in scrittura OK
-    data sia in lettura e scrittura 
+    data sia in lettura e scrittura OK
     numero di posti totale sia solo in lettura OK
     numero di posti prenotati sia solo in lettura OK
 
@@ -41,7 +42,7 @@ public class Evento {
 
     Scanner scan = new Scanner(System.in);
 
-    public void dataEvento(Scanner scan) {
+    public void setData(Scanner scan) {
         while (true) {
             try {
                 System.out.println("Inserisci anno evento");
@@ -51,7 +52,7 @@ public class Evento {
 
                 System.out.println("Inserisci mese evento (1-12)");
                 int mese = scan.nextInt();
-                if (mese < 1 || mese > 12 || mese < LocalDateTime.now().getMonthValue())
+                if (mese < 1 || mese > 12 || (anno == LocalDateTime.now().getYear() && mese < LocalDateTime.now().getMonthValue()))
                     throw new DateTimeException("Mese non valido. Inserisci mese attuale o successivo (1-12)");
 
                 // Otteniamo il numero massimo di giorni per il mese selezionato
@@ -79,7 +80,7 @@ public class Evento {
                 }
 
                 this.data = dataInserita;
-                System.out.println("Data evento creata: " + this.data);
+                System.out.println("Data evento: " + getData());
                 break; // Esce dal loop se la data è valida
 
             } catch (DateTimeException e) {
@@ -97,7 +98,7 @@ public class Evento {
         if(titolo.length() <= 0) {
             throw new IllegalArgumentException("Il titolo deve contenere del testo");
         }
-        dataEvento(scan);
+        setData(scan);
         System.out.println("Quanti posti sono disponibili?");
         this.postiTotale = scan.nextInt();
         if (postiTotale <= 0) {
@@ -123,7 +124,10 @@ public class Evento {
         return postiPrenotati;
     }
 
-    
+    public String getData() {
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy HH:mm");
+        return this.data.format(formato);
+    }
 
     
 }

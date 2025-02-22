@@ -12,10 +12,13 @@ public class Main {
         System.out.println(concerto1.getTitolo());
         scan.nextLine();
 
-        concerto1.setTitolo(scan);
-
         System.out.println(concerto1.getTitolo());
         System.out.println(concerto1.getPostiTotale() + " " + concerto1.getPostiPrenotati());
+        System.out.println(concerto1.getData());
+
+        concerto1.setData(scan);
+
+        concerto1.getData();
 
     }
 }
