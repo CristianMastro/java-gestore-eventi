@@ -9,14 +9,15 @@ import java.util.Scanner;
 /*
 
 Creare una classe Evento che abbia le seguenti proprietà:
-    titolo
-    data
-    numero di posti in totale
-    numero di posti prenotati
-Quando si istanzia un nuovo evento questi attributi devono essere tutti valorizzati nel costruttore, tranne posti prenotati che va inizializzato a 0.
+    titolo -------OK
+    data ---------OK
+    numero di posti in totale -------OK
+    numero di posti prenotati -------OK
 
-Inserire il controllo che la data non sia già passata e che il numero di posti totali sia positivo. In caso contrario il programma deve lanciare una eccezione.
-Aggiungere metodi getter e setter in modo che:
+    Quando si istanzia un nuovo evento questi attributi devono essere tutti valorizzati nel costruttore, tranne posti prenotati che va inizializzato a 0. OK
+
+    Inserire il controllo che la data non sia già passata e che il numero di posti totali sia positivo. In caso contrario il programma deve lanciare una eccezione. OKU
+    Aggiungere metodi getter e setter in modo che:
     titolo sia in lettura e in scrittura
     data sia in lettura e scrittura
     numero di posti totale sia solo in lettura
@@ -31,12 +32,6 @@ Aggiungete eventuali metodi (public e private) che vi aiutino a svolgere le funz
 
  */
 
-
-
-
-
-
-
 public class Evento {
 
     private String titolo;
@@ -46,31 +41,36 @@ public class Evento {
 
     Scanner scan = new Scanner(System.in);
 
-    public void dataEvento(Scanner scan){
+    public void dataEvento(Scanner scan) {
         while (true) {
             try {
                 System.out.println("Inserisci anno evento");
                 int anno = scan.nextInt();
-                if (anno < LocalDateTime.now().getYear()) throw new DateTimeException("Anno non valido.");
-                
+                if (anno < LocalDateTime.now().getYear())
+                    throw new DateTimeException("Anno non valido. Inserisci anno attuale o successivo");
+
                 System.out.println("Inserisci mese evento (1-12)");
                 int mese = scan.nextInt();
-                if (mese < 1 || mese > 12 || mese < LocalDateTime.now().getMonthValue()) throw new DateTimeException("Mese non valido.");
+                if (mese < 1 || mese > 12 || mese < LocalDateTime.now().getMonthValue())
+                    throw new DateTimeException("Mese non valido. Inserisci mese attuale o successivo (1-12)");
 
                 // Otteniamo il numero massimo di giorni per il mese selezionato
                 int maxGiorni = Month.of(mese).length(Year.isLeap(anno));
 
                 System.out.println("Inserisci giorno evento (1-" + maxGiorni + "):");
                 int giorno = scan.nextInt();
-                if (giorno < 1 || giorno > maxGiorni ) throw new DateTimeException("Giorno non valido.");
+                if (giorno < 1 || giorno > maxGiorni)
+                    throw new DateTimeException("Giorno non valido. Inserisci giorno attuale o successivo");
 
                 System.out.println("Inserisci ora evento (0-23):");
                 int ora = scan.nextInt();
-                if (ora < 0 || ora > 23) throw new DateTimeException("Ora non valida.");
+                if (ora < 0 || ora > 23)
+                    throw new DateTimeException("Ora non valida. Inserisci un'ora valida (0-23)");
 
                 System.out.println("Inserisci minuti evento (0-59):");
                 int minuti = scan.nextInt();
-                if (minuti < 0 || minuti > 59) throw new DateTimeException("Minuti non validi.");
+                if (minuti < 0 || minuti > 59)
+                    throw new DateTimeException("Minuti non validi. Inserisci minuti (0-59)");
 
                 // Creiamo la data e controlliamo che sia nel futuro
                 LocalDateTime dataInserita = LocalDateTime.of(anno, mese, giorno, ora, minuti);
@@ -91,33 +91,19 @@ public class Evento {
         }
     }
 
-    public Evento(Scanner scan){
+    public Evento(Scanner scan) {
         System.out.println("Inserisci il nome dell'evento");
-        this.titolo = scan.nextLine();
+        this.titolo = scan.nextLine().trim();
+        if(titolo.length() <= 0) {
+            throw new IllegalArgumentException("Il titolo deve contenere del testo");
+        }
         dataEvento(scan);
         System.out.println("Quanti posti sono disponibili?");
         this.postiTotale = scan.nextInt();
+        if (postiTotale <= 0) {
+            throw new IllegalArgumentException("Il numero di posti deve essere positivo");
+        }
         postiPrenotati = 0;
-    }
-
-    public String getTitolo() {
-        return titolo;
-    }
-
-    public void setTitolo(Scanner scan) {
-       this.titolo = titolo;
-    }
-
-    public void setData(Scanner scan) {
-        this.data = data;
-    }
-
-    public int getPostiTotale() {
-        return postiTotale;
-    }
-
-    public static int getPostiPrenotati() {
-        return postiPrenotati;
     }
 
 }
