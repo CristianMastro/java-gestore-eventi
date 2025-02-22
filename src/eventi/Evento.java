@@ -27,7 +27,7 @@ Creare una classe Evento che abbia le seguenti proprietà:
 Vanno inoltre implementati dei metodi public che svolgono le seguenti funzioni:
     prenota: aggiunge uno ai posti prenotati. Se l’evento è già passato o non ha posti disponibili deve restituire un’eccezione.
     disdici: riduce di uno i posti prenotati. Se l’evento è già passato o non ci sono prenotazioni restituisce un’eccezione.
-    l’override del metodo toString() in modo che venga restituita una stringa contenente: data formattata - titolo
+    l’override del metodo toString() in modo che venga restituita una stringa contenente: data formattata - titolo OK
 
 Aggiungete eventuali metodi (public e private) che vi aiutino a svolgere le funzioni richieste.
 
@@ -129,5 +129,11 @@ public class Evento {
         return this.data.format(formato);
     }
 
+    @Override
+    public String toString() {
+        return getData() + " - " + titolo;
+    }
+
+    
     
 }
