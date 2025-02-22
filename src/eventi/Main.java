@@ -9,5 +9,12 @@ public class Main {
         
         Evento concerto1 = new Evento(scan);
 
+        System.out.println(concerto1.getTitolo());
+        scan.nextLine();
+
+        concerto1.setTitolo(scan);
+
+        System.out.println(concerto1.getTitolo());
+
     }
 }

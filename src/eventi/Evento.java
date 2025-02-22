@@ -106,4 +106,14 @@ public class Evento {
         postiPrenotati = 0;
     }
 
+    public String getTitolo() {
+        return titolo;
+    }
+
+    public void setTitolo(Scanner scan) {
+        System.out.println("Inserisci il nuovo titolo");
+        this.titolo = scan.nextLine();
+    }
+
+
 }
