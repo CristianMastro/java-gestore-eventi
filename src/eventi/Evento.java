@@ -25,7 +25,7 @@ Creare una classe Evento che abbia le seguenti proprietà:
     numero di posti prenotati sia solo in lettura OK
 
 Vanno inoltre implementati dei metodi public che svolgono le seguenti funzioni:
-    prenota: aggiunge uno ai posti prenotati. Se l’evento è già passato o non ha posti disponibili deve restituire un’eccezione.
+    prenota: aggiunge uno ai posti prenotati. Se l’evento è già passato o non ha posti disponibili deve restituire un’eccezione. OK
     disdici: riduce di uno i posti prenotati. Se l’evento è già passato o non ci sono prenotazioni restituisce un’eccezione.
     l’override del metodo toString() in modo che venga restituita una stringa contenente: data formattata - titolo OK
 
@@ -37,7 +37,8 @@ public class Evento {
 
     private String titolo;
     private LocalDateTime data;
-    private int postiTotale;
+    private int numeroPosti;
+    private int[] postiTotale;
     private static int postiPrenotati;
 
     Scanner scan = new Scanner(System.in);
@@ -52,7 +53,8 @@ public class Evento {
 
                 System.out.println("Inserisci mese evento (1-12)");
                 int mese = scan.nextInt();
-                if (mese < 1 || mese > 12 || (anno == LocalDateTime.now().getYear() && mese < LocalDateTime.now().getMonthValue()))
+                if (mese < 1 || mese > 12
+                        || (anno == LocalDateTime.now().getYear() && mese < LocalDateTime.now().getMonthValue()))
                     throw new DateTimeException("Mese non valido. Inserisci mese attuale o successivo (1-12)");
 
                 // Otteniamo il numero massimo di giorni per il mese selezionato
@@ -95,16 +97,16 @@ public class Evento {
     public Evento(Scanner scan) {
         System.out.println("Inserisci il nome dell'evento");
         this.titolo = scan.nextLine().trim();
-        if(titolo.length() <= 0) {
+        if (titolo.length() <= 0) {
             throw new IllegalArgumentException("Il titolo deve contenere del testo");
         }
         setData(scan);
         System.out.println("Quanti posti sono disponibili?");
-        this.postiTotale = scan.nextInt();
-        if (postiTotale <= 0) {
+        this.numeroPosti = scan.nextInt();
+        if (numeroPosti <= 0) {
             throw new IllegalArgumentException("Il numero di posti deve essere positivo");
         }
-        postiPrenotati = 0;
+        this.postiTotale = new int[numeroPosti];
     }
 
     public String getTitolo() {
@@ -114,10 +116,6 @@ public class Evento {
     public void setTitolo(Scanner scan) {
         System.out.println("Inserisci il nuovo titolo");
         this.titolo = scan.nextLine();
-    }
-
-    public int getPostiTotale() {
-        return postiTotale;
     }
 
     public static int getPostiPrenotati() {
@@ -134,6 +132,36 @@ public class Evento {
         return getData() + " - " + titolo;
     }
 
-    
-    
+    public int getNumeroPosti() {
+        return numeroPosti;
+    }
+
+    public void prenota(Scanner scan) {
+        try {
+            System.out.println("Quanti posti vuoi aggiungere?");
+            int numPostiDaAggiungere = scan.nextInt();
+            scan.nextLine();
+
+            if (postiPrenotati + numPostiDaAggiungere > numeroPosti) {
+                throw new IllegalArgumentException(
+                        "Errore: non ci sono abbastanza posti. Posti disponibili: " + postiDisponibili());
+            }
+
+            for (int i = 0; i < numPostiDaAggiungere; i++) {
+                int nuovoPosto = postiPrenotati + 1; 
+                postiTotale[postiPrenotati] = nuovoPosto; 
+                postiPrenotati++;
+            }
+
+            System.out.println("Posti aggiunti: " + numPostiDaAggiungere + ". Posti rimanenti: " + postiDisponibili());
+
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public int postiDisponibili() {
+        int postiDisponibili = numeroPosti - postiPrenotati;
+        return postiDisponibili;
+    }
 }
