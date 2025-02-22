@@ -15,6 +15,7 @@ public class Main {
         concerto1.setTitolo(scan);
 
         System.out.println(concerto1.getTitolo());
+        System.out.println(concerto1.getPostiTotale() + " " + concerto1.getPostiPrenotati());
 
     }
 }

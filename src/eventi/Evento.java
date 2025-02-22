@@ -18,10 +18,10 @@ Creare una classe Evento che abbia le seguenti proprietà:
 
     Inserire il controllo che la data non sia già passata e che il numero di posti totali sia positivo. In caso contrario il programma deve lanciare una eccezione. OKU
     Aggiungere metodi getter e setter in modo che:
-    titolo sia in lettura e in scrittura
-    data sia in lettura e scrittura
-    numero di posti totale sia solo in lettura
-    numero di posti prenotati sia solo in lettura
+    titolo sia in lettura e in scrittura OK
+    data sia in lettura e scrittura 
+    numero di posti totale sia solo in lettura OK
+    numero di posti prenotati sia solo in lettura OK
 
 Vanno inoltre implementati dei metodi public che svolgono le seguenti funzioni:
     prenota: aggiunge uno ai posti prenotati. Se l’evento è già passato o non ha posti disponibili deve restituire un’eccezione.
@@ -115,5 +115,15 @@ public class Evento {
         this.titolo = scan.nextLine();
     }
 
+    public int getPostiTotale() {
+        return postiTotale;
+    }
 
+    public static int getPostiPrenotati() {
+        return postiPrenotati;
+    }
+
+    
+
+    
 }
