@@ -44,7 +44,7 @@ public class Evento {
 
     Scanner scan = new Scanner(System.in);
 
-    public void setPosti(Scanner scan) {
+   private void setPosti(Scanner scan) {
         while (true) {
             try {
                 System.out.println("Quanti posti sono disponibili?");
@@ -52,12 +52,11 @@ public class Evento {
                 scan.nextLine();
 
                 if (postiEvento > 0) {
+                    this.numeroPosti = postiEvento;
                     break;
                 } else if (postiEvento <= 0){
                     throw new IllegalArgumentException("E' possibile assegnare solo numeri positivi.");
                 }
-                this.numeroPosti = postiEvento;
-                break;
 
             } catch (InputMismatchException e) {
                 System.out.println("Errore: devi inserire un numero intero.");
