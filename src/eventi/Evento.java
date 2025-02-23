@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.Year;
 import java.time.format.DateTimeFormatter;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /*
@@ -42,6 +43,28 @@ public class Evento {
     private static int postiPrenotati;
 
     Scanner scan = new Scanner(System.in);
+
+    public void setPosti(Scanner scan) {
+        while (true) {
+            try {
+                System.out.println("Quanti posti sono disponibili?");
+                int postiEvento = scan.nextInt();
+                scan.nextLine();
+
+                if (postiEvento > 0) {
+                    break;
+                } else if (postiEvento <= 0){
+                    throw new IllegalArgumentException("E' possibile assegnare solo numeri positivi.");
+                }
+                this.numeroPosti = postiEvento;
+                break;
+
+            } catch (InputMismatchException e) {
+                System.out.println("Errore: devi inserire un numero intero.");
+                scan.nextLine();
+            }
+        }
+    }
 
     public void setData(Scanner scan) {
         while (true) {
@@ -83,13 +106,13 @@ public class Evento {
 
                 this.data = dataInserita;
                 System.out.println("Data evento: " + getData());
-                break; // Esce dal loop se la data è valida
+                break;
 
             } catch (DateTimeException e) {
                 System.out.println("Errore: " + e.getMessage() + " Riprova.");
             } catch (Exception e) {
                 System.out.println("Errore di input: inserisci un valore numerico valido.");
-                scan.nextLine(); // Pulisce lo scanner per evitare loop infiniti
+                scan.nextLine();
             }
         }
     }
@@ -101,11 +124,7 @@ public class Evento {
             throw new IllegalArgumentException("Il titolo deve contenere del testo");
         }
         setData(scan);
-        System.out.println("Quanti posti sono disponibili?");
-        this.numeroPosti = scan.nextInt();
-        if (numeroPosti <= 0) {
-            throw new IllegalArgumentException("Il numero di posti deve essere positivo");
-        }
+        setPosti(scan);
         this.postiTotale = new int[numeroPosti];
     }
 
@@ -137,27 +156,71 @@ public class Evento {
     }
 
     public void prenota(Scanner scan) {
-        try {
-            System.out.println("Quanti posti vuoi aggiungere?");
-            int numPostiDaAggiungere = scan.nextInt();
-            scan.nextLine();
+        int numPostiDaAggiungere = 0;
 
-            if (postiPrenotati + numPostiDaAggiungere > numeroPosti) {
-                throw new IllegalArgumentException(
-                        "Errore: non ci sono abbastanza posti. Posti disponibili: " + postiDisponibili());
+        while (true) {
+            try {
+                System.out.println("Quanti posti vuoi aggiungere?");
+                numPostiDaAggiungere = scan.nextInt();
+                scan.nextLine();
+
+                if (numPostiDaAggiungere > 0) {
+                    break;
+                } else {
+                    System.out.println("Errore: inserisci un numero positivo.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Errore: devi inserire un numero intero valido.");
+                scan.nextLine();
             }
-
-            for (int i = 0; i < numPostiDaAggiungere; i++) {
-                int nuovoPosto = postiPrenotati + 1; 
-                postiTotale[postiPrenotati] = nuovoPosto; 
-                postiPrenotati++;
-            }
-
-            System.out.println("Posti aggiunti: " + numPostiDaAggiungere + ". Posti rimanenti: " + postiDisponibili());
-
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
         }
+
+        if (postiPrenotati + numPostiDaAggiungere > numeroPosti) {
+            System.out.println("Non ci sono abbastanza posti. Posti disponibili: " + postiDisponibili() + ". Riprova.");
+            return;
+        }
+
+        for (int i = 0; i < numPostiDaAggiungere; i++) {
+            int nuovoPosto = postiPrenotati + 1;
+            postiTotale[postiPrenotati] = nuovoPosto;
+            postiPrenotati++;
+        }
+
+        System.out.println("Posti aggiunti: " + numPostiDaAggiungere + ". Posti rimanenti: " + postiDisponibili()
+                + ". Posti prenotati: " + postiPrenotati);
+    }
+
+    public void disdici(Scanner scan) {
+        int numPostiDaDisdire = 0;
+        while (true) {
+            try {
+                System.out.println("Quanti posti vuoi disdire?");
+                numPostiDaDisdire = scan.nextInt();
+                scan.nextLine();
+
+                if (numPostiDaDisdire > 0) {
+                    break;
+                } else {
+                    System.out.println("Inserisci un numero positivo");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Errore: devi inserire un numero intero valido.");
+                scan.nextLine();
+            }
+        }
+
+        if (numPostiDaDisdire > postiPrenotati) {
+            System.out.println(
+                    "Non è possibile disdire i posti selezionati, i posti prenotati sono inferiori: " + postiPrenotati);
+            return;
+        }
+
+        for (int i = 0; i < numPostiDaDisdire; i++) {
+            postiPrenotati--;
+            postiTotale[postiPrenotati] = 0;
+        }
+        System.out.println("Posti eliminati: " + numPostiDaDisdire + ". Posti rimanenti: " + postiDisponibili()
+                + ". Posti prenotati: " + postiPrenotati);
     }
 
     public int postiDisponibili() {

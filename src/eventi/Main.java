@@ -9,8 +9,15 @@ public class Main {
         
         Evento concerto1 = new Evento(scan);
 
-        concerto1.prenota(scan);
+        
 
         concerto1.postiDisponibili();
+
+        concerto1.prenota(scan);
+        concerto1.prenota(scan);
+
+        concerto1.disdici(scan);
+
+    
     }
 }
