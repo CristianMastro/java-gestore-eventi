@@ -164,7 +164,7 @@ public class Evento {
                 numPostiDaAggiungere = scan.nextInt();
                 scan.nextLine();
 
-                if (numPostiDaAggiungere > 0) {
+                if (numPostiDaAggiungere >= 0) {
                     break;
                 } else {
                     System.out.println("Errore: inserisci un numero positivo.");
@@ -198,7 +198,7 @@ public class Evento {
                 numPostiDaDisdire = scan.nextInt();
                 scan.nextLine();
 
-                if (numPostiDaDisdire > 0) {
+                if (numPostiDaDisdire >= 0) {
                     break;
                 } else {
                     System.out.println("Inserisci un numero positivo");
