@@ -1,7 +1,7 @@
 package eventi;
 
 import java.time.DateTimeException;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.Month;
 import java.time.Year;
 import java.time.format.DateTimeFormatter;
@@ -37,14 +37,14 @@ Aggiungete eventuali metodi (public e private) che vi aiutino a svolgere le funz
 public class Evento {
 
     private String titolo;
-    private LocalDateTime data;
+    protected LocalDate data;
     private int numeroPosti;
     private int[] postiTotale;
     private static int postiPrenotati;
 
     Scanner scan = new Scanner(System.in);
 
-   private void setPosti(Scanner scan) {
+    private void setPosti(Scanner scan) {
         while (true) {
             try {
                 System.out.println("Quanti posti sono disponibili?");
@@ -54,7 +54,7 @@ public class Evento {
                 if (postiEvento > 0) {
                     this.numeroPosti = postiEvento;
                     break;
-                } else if (postiEvento <= 0){
+                } else if (postiEvento <= 0) {
                     throw new IllegalArgumentException("E' possibile assegnare solo numeri positivi.");
                 }
 
@@ -68,50 +68,41 @@ public class Evento {
     public void setData(Scanner scan) {
         while (true) {
             try {
-                System.out.println("Inserisci anno evento");
+                System.out.println("Inserisci anno evento:");
                 int anno = scan.nextInt();
-                if (anno < LocalDateTime.now().getYear())
-                    throw new DateTimeException("Anno non valido. Inserisci anno attuale o successivo");
+                if (anno < LocalDate.now().getYear()) {
+                    throw new DateTimeException("Anno non valido. Inserisci anno attuale o successivo.");
+                }
 
-                System.out.println("Inserisci mese evento (1-12)");
+                System.out.println("Inserisci mese evento (1-12):");
                 int mese = scan.nextInt();
-                if (mese < 1 || mese > 12
-                        || (anno == LocalDateTime.now().getYear() && mese < LocalDateTime.now().getMonthValue()))
-                    throw new DateTimeException("Mese non valido. Inserisci mese attuale o successivo (1-12)");
+                if (mese < 1 || mese > 12 ||
+                        (anno == LocalDate.now().getYear() && mese < LocalDate.now().getMonthValue())) {
+                    throw new DateTimeException("Mese non valido. Inserisci mese attuale o successivo (1-12).");
+                }
 
-                // Otteniamo il numero massimo di giorni per il mese selezionato
                 int maxGiorni = Month.of(mese).length(Year.isLeap(anno));
 
                 System.out.println("Inserisci giorno evento (1-" + maxGiorni + "):");
                 int giorno = scan.nextInt();
-                if (giorno < 1 || giorno > maxGiorni)
-                    throw new DateTimeException("Giorno non valido. Inserisci giorno attuale o successivo");
+                if (giorno < 1 || giorno > maxGiorni) {
+                    throw new DateTimeException("Giorno non valido. Inserisci giorno corretto per il mese scelto.");
+                }
 
-                System.out.println("Inserisci ora evento (0-23):");
-                int ora = scan.nextInt();
-                if (ora < 0 || ora > 23)
-                    throw new DateTimeException("Ora non valida. Inserisci un'ora valida (0-23)");
-
-                System.out.println("Inserisci minuti evento (0-59):");
-                int minuti = scan.nextInt();
-                if (minuti < 0 || minuti > 59)
-                    throw new DateTimeException("Minuti non validi. Inserisci minuti (0-59)");
-
-                // Creiamo la data e controlliamo che sia nel futuro
-                LocalDateTime dataInserita = LocalDateTime.of(anno, mese, giorno, ora, minuti);
-                if (dataInserita.isBefore(LocalDateTime.now())) {
+                LocalDate dataInserita = LocalDate.of(anno, mese, giorno);
+                if (dataInserita.isBefore(LocalDate.now())) {
                     throw new DateTimeException("Errore: la data deve essere futura.");
                 }
 
                 this.data = dataInserita;
-                System.out.println("Data evento: " + getData());
+                System.out.println("Data evento impostata: " + getData());
                 break;
 
             } catch (DateTimeException e) {
                 System.out.println("Errore: " + e.getMessage() + " Riprova.");
             } catch (Exception e) {
                 System.out.println("Errore di input: inserisci un valore numerico valido.");
-                scan.nextLine();
+                scan.nextLine(); // Pulisce il buffer per evitare loop infiniti
             }
         }
     }
@@ -133,7 +124,7 @@ public class Evento {
 
     public void setTitolo(Scanner scan) {
         System.out.println("Inserisci il nuovo titolo");
-        this.titolo = scan.nextLine();
+        this.titolo = scan.nextLine().trim();
     }
 
     public static int getPostiPrenotati() {
@@ -141,7 +132,7 @@ public class Evento {
     }
 
     public String getData() {
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy HH:mm");
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy");
         return this.data.format(formato);
     }
 

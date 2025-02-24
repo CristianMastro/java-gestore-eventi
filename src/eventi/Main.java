@@ -18,8 +18,11 @@ public class Main {
 
         Scanner scan = new Scanner(System.in);
         
-        Evento concerto1 = new Evento(scan);
+        Concerto concerto1 = new Concerto(scan);
 
+        System.out.println(concerto1.getOrario());
+
+        
         concerto1.prenota(scan);
         System.out.println(concerto1.toString());
         System.out.println("Posti evento: " + concerto1.getNumeroPosti());
@@ -41,7 +44,5 @@ public class Main {
         concerto1.setData(scan);
         System.out.println(concerto1.toString());
 
-
-    
     }
 }

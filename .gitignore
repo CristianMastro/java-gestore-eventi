@@ -1,3 +1,4 @@
 .vscode/settings.json
 bin/eventi/Evento.class
 bin/eventi/Main.class
+bin/eventi/Concerto.class
