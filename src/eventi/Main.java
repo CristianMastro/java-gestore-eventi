@@ -21,6 +21,15 @@ public class Main {
         Concerto concerto1 = new Concerto(scan);
 
         System.out.println(concerto1.getOrario());
+        System.out.println(concerto1.getPrezzo());
+
+        concerto1.setOrario(scan);
+        concerto1.setPrezzo(scan);
+
+        System.out.println(concerto1.getOrario());
+        System.out.println(concerto1.getPrezzo());
+
+        System.out.println(concerto1.toString());
 
         
         concerto1.prenota(scan);
@@ -43,6 +52,12 @@ public class Main {
 
         concerto1.setData(scan);
         System.out.println(concerto1.toString());
+
+        concerto1.setOrario(scan);
+        concerto1.setPrezzo(scan);
+
+        System.out.println(concerto1.getOrario());
+        System.out.println(concerto1.getPrezzo());
 
     }
 }

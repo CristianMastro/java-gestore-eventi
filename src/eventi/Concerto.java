@@ -1,5 +1,6 @@
 package eventi;
 
+import java.text.DecimalFormat;
 import java.time.DateTimeException;
 import java.time.LocalTime;
 import java.util.Scanner;
@@ -12,14 +13,33 @@ public class Concerto extends Evento {
     public Concerto(Scanner scan) {
         super(scan);
         setOrario(scan);
+        setPrezzo(scan);
     }
 
-    public double getPrezzo() {
-        return prezzo;
+    public String getPrezzo() {
+        DecimalFormat formato = new DecimalFormat("##,##0.00€");
+        return formato.format(this.prezzo);
     }
 
-    public void setPrezzo(double prezzo) {
-        this.prezzo = prezzo;
+    public void setPrezzo(Scanner scan) {
+        while (true) {
+            try {
+                System.out.println("Inserisci il prezzo del biglietto :");
+                double prezzo = scan.nextDouble();
+                if (prezzo < 0) {
+                    throw new IllegalArgumentException("Il prezzo non può essere negativo.");
+                }
+
+                this.prezzo = prezzo;
+                System.out.println("Prezzo: " + getPrezzo());
+                break;
+            } catch (IllegalArgumentException e) {
+                System.out.println("Errore: " + e.getMessage() + " Riprova.");
+            } catch (Exception e) {
+                System.out.println("Errore di input: inserisci un numero valido.");
+                scan.nextLine();
+            }
+        }
     }
 
     public void setOrario(Scanner scan) {
@@ -38,7 +58,7 @@ public class Concerto extends Evento {
                 }
 
                 this.oraEvento = LocalTime.of(ora, minuti);
-                System.out.println("Orario del concerto impostato: " + getData() + " " + this.oraEvento);
+                System.out.println("Orario impostato: " + getData() + " " + this.oraEvento);
                 break;
 
             } catch (DateTimeException e) {
@@ -54,8 +74,9 @@ public class Concerto extends Evento {
         return oraEvento;
     }
 
-    
+    @Override
+    public String toString() {
+        return getData() + " - Ore: " + getOrario() + " - " + getTitolo() + " - Prezzo biglietto: " + getPrezzo();
+    }
 
-
-    
 }

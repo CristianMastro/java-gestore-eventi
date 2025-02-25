@@ -70,8 +70,10 @@ public class Evento {
             try {
                 System.out.println("Inserisci anno evento:");
                 int anno = scan.nextInt();
-                if (anno < LocalDate.now().getYear()) {
-                    throw new DateTimeException("Anno non valido. Inserisci anno attuale o successivo.");
+                int annoAttuale = LocalDate.now().getYear();
+
+                if (anno < annoAttuale || anno > 2099) {
+                    throw new DateTimeException("Anno non valido. Inserisci anno attuale o successivo fino al 2099");
                 }
 
                 System.out.println("Inserisci mese evento (1-12):");
