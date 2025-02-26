@@ -95,7 +95,8 @@ public class Evento {
                 if (dataInserita.isBefore(LocalDate.now())) {
                     throw new DateTimeException("Errore: la data deve essere futura.");
                 }
-
+                
+                scan.nextLine();
                 this.data = dataInserita;
                 System.out.println("Data evento impostata: " + getData());
                 break;
@@ -104,7 +105,7 @@ public class Evento {
                 System.out.println("Errore: " + e.getMessage() + " Riprova.");
             } catch (Exception e) {
                 System.out.println("Errore di input: inserisci un valore numerico valido.");
-                scan.nextLine(); // Pulisce il buffer per evitare loop infiniti
+                scan.nextLine();
             }
         }
     }

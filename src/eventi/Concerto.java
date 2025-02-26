@@ -57,6 +57,7 @@ public class Concerto extends Evento {
                     throw new DateTimeException("Minuti non validi. Inserisci un valore tra 0 e 59.");
                 }
 
+                scan.nextLine();
                 this.oraEvento = LocalTime.of(ora, minuti);
                 System.out.println("Orario impostato: " + getData() + " " + this.oraEvento);
                 break;
