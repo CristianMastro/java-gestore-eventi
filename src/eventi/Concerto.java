@@ -29,7 +29,7 @@ public class Concerto extends Evento {
                 if (prezzo < 0) {
                     throw new IllegalArgumentException("Il prezzo non può essere negativo.");
                 }
-
+                scan.nextLine();
                 this.prezzo = prezzo;
                 System.out.println("Prezzo: " + getPrezzo());
                 break;

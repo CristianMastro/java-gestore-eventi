@@ -40,7 +40,7 @@ public class Evento {
     protected LocalDate data;
     private int numeroPosti;
     private int[] postiTotale;
-    private static int postiPrenotati;
+    private int postiPrenotati = 0;
 
     Scanner scan = new Scanner(System.in);
 
@@ -129,7 +129,7 @@ public class Evento {
         this.titolo = scan.nextLine().trim();
     }
 
-    public static int getPostiPrenotati() {
+    public int getPostiPrenotati() {
         return postiPrenotati;
     }
 

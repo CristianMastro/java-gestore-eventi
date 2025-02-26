@@ -19,6 +19,14 @@ public class Main {
         Scanner scan = new Scanner(System.in);
         
         Concerto concerto1 = new Concerto(scan);
+        Concerto concerto2 = new Concerto(scan);
+
+        
+        
+        concerto1.prenota(scan);
+
+        concerto2.prenota(scan);
+        System.out.println(concerto1.getPostiPrenotati());
 
         System.out.println(concerto1.getOrario());
         System.out.println(concerto1.getPrezzo());
@@ -29,10 +37,7 @@ public class Main {
         System.out.println(concerto1.getOrario());
         System.out.println(concerto1.getPrezzo());
 
-        System.out.println(concerto1.toString());
 
-        
-        concerto1.prenota(scan);
         System.out.println(concerto1.toString());
         System.out.println("Posti evento: " + concerto1.getNumeroPosti());
         System.out.println("Posti prenotati: " + concerto1.getPostiPrenotati());
