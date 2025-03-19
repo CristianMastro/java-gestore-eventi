@@ -17,8 +17,19 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         Scanner scan = new Scanner(System.in);
-        
+
+        ProgrammaEventi concerti = new  ProgrammaEventi(scan);
+
         Concerto concerto1 = new Concerto(scan);
+
+        concerti.aggiungiEvento(concerto1);
+
+        System.out.println("Eventi presenti: " + concerti.eventiPresenti());
+        concerti.svuotaLista();
+        System.out.println("Eventi presenti: " + concerti.eventiPresenti());
+
+
+
         Concerto concerto2 = new Concerto(scan);
 
         
@@ -63,6 +74,9 @@ public class Main {
 
         System.out.println(concerto1.getOrario());
         System.out.println(concerto1.getPrezzo());
+
+
+        
 
     }
 }
