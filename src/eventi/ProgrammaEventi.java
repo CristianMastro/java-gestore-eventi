@@ -33,6 +33,5 @@ public class ProgrammaEventi {
     public int eventiPresenti() {
         return nomeEvento.size();
     }
-
     
 }
