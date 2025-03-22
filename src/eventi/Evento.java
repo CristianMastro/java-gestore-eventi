@@ -150,7 +150,7 @@ public class Evento {
     }
 
     public void prenota(Scanner scan) {
-        System.out.print("Vuoi prenotare dei posti? (y/n): ");
+        System.out.print("Posti disponibili: " + postiDisponibili() + ". Vuoi prenotare dei posti? (y/n): ");
         String scelta = scan.nextLine().trim().toLowerCase();
 
         while (!scelta.equals("y") && !scelta.equals("n")) {
@@ -198,7 +198,7 @@ public class Evento {
     }
 
     public void disdici(Scanner scan) {
-        System.out.print("Vuoi disdire dei posti? (y/n): ");
+        System.out.print("Posti prenotati: " + getPostiPrenotati() + ". Vuoi disdire dei posti? (y/n): ");
         String scelta = scan.nextLine().trim().toLowerCase();
 
         while (!scelta.equals("y") && !scelta.equals("n")) {

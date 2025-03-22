@@ -26,6 +26,7 @@ public class Main {
         /*Dopo che l’evento è stato istanziato, chiedere all’utente se e quante prenotazioni vuole fare e provare ad effettuarle, implementando opportuni controlli */
         
         concerto1.prenota(scan);
+        concerto1.prenota(scan);
 
         /*Stampare a video il numero di posti prenotati e quelli disponibili */
 
