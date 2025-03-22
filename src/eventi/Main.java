@@ -21,6 +21,7 @@ public class Main {
         /*Creare una classe Main di test, in cui si chiede all’utente di inserire un nuovo evento con tutti i parametri. */
 
         Concerto concerto1 = new Concerto(scan);
+        System.out.println(concerto1.toString());
         
         /*Dopo che l’evento è stato istanziato, chiedere all’utente se e quante prenotazioni vuole fare e provare ad effettuarle, implementando opportuni controlli */
         

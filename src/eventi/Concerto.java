@@ -2,6 +2,7 @@ package eventi;
 
 import java.text.DecimalFormat;
 import java.time.DateTimeException;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Scanner;
 
@@ -9,7 +10,7 @@ public class Concerto extends Evento {
 
     private double prezzo;
     private LocalTime oraEvento;
-    
+
     public Concerto(Scanner scan) {
         super(scan);
         setOrario(scan);
@@ -23,21 +24,23 @@ public class Concerto extends Evento {
 
     public void setPrezzo(Scanner scan) {
         while (true) {
-            try {
-                System.out.println("Inserisci il prezzo del biglietto :");
-                double prezzo = scan.nextDouble();
-                if (prezzo < 0) {
-                    throw new IllegalArgumentException("Il prezzo non può essere negativo.");
-                }
+            System.out.println("Inserisci il prezzo del biglietto:");
+
+            if (!scan.hasNextDouble()) {
+                System.out.println("Errore: inserisci un numero valido.");
                 scan.nextLine();
+                continue;
+            }
+
+            double prezzo = scan.nextDouble();
+            scan.nextLine();
+
+            if (prezzo <= 0) {
+                System.out.println("Errore: Il prezzo non può essere negativo. Riprova.");
+            } else {
                 this.prezzo = prezzo;
-                System.out.println("Prezzo: " + getPrezzo());
+                System.out.println("Prezzo impostato: " + getPrezzo());
                 break;
-            } catch (IllegalArgumentException e) {
-                System.out.println("Errore: " + e.getMessage() + " Riprova.");
-            } catch (Exception e) {
-                System.out.println("Errore di input: inserisci un numero valido.");
-                scan.nextLine();
             }
         }
     }
@@ -58,9 +61,15 @@ public class Concerto extends Evento {
                 }
 
                 scan.nextLine();
-                this.oraEvento = LocalTime.of(ora, minuti);
+                LocalTime orarioInserito = LocalTime.of(ora, minuti);
+                if (this.data.equals(LocalDate.now()) && orarioInserito.isBefore(LocalTime.now())) {
+                    System.out.println("Errore: l'orario deve essere successivo a quello attuale. Riprova.");
+                    continue; // Richiede un nuovo inserimento
+                }
+
+                this.oraEvento = orarioInserito;
                 System.out.println("Orario impostato: " + getData() + " " + this.oraEvento);
-                break;
+                break; // Esce dal ciclo
 
             } catch (DateTimeException e) {
                 System.out.println("Errore: " + e.getMessage() + " Riprova.");

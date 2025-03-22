@@ -55,7 +55,8 @@ public class Evento {
                     this.numeroPosti = postiEvento;
                     break;
                 } else if (postiEvento <= 0) {
-                    throw new IllegalArgumentException("E' possibile assegnare solo numeri positivi.");
+                    System.out.println("Errore: il numero di posti deve essere maggiore di zero.");
+                    continue;
                 }
 
             } catch (InputMismatchException e) {
